@@ -14,9 +14,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function Index()
     {
-        //
+        return view('admin/user');
     }
 
     /**

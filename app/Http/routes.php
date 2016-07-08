@@ -21,11 +21,11 @@
 /** 
 * url 路由功能
 */
- Route::get('/',function() {
-	//return view('welcome');
-	echo 'hello world'."<br>";
-	echo date('Y-m-d H:i:s');
-});
+//  Route::get('/',function() {
+// 	//return view('welcome');
+// 	echo 'hello world'."<br>";
+// 	echo date('Y-m-d H:i:s');
+// });
 
  // 可以读取 配置项 Config:类 get: 静态成员方法 app 要读取的文件名称
  // echo Config::get('app.timezone')."<br>";
@@ -43,13 +43,26 @@
  
 
  //多个参数的传递 
- Route::get('/goods/list/{name}-{id}', function($name, $id){
- 	echo $name;
- 	echo $id;
- })->where('id','\d+')->where('name','[a-zA-Z]+');
+ // Route::get('/goods/list/{name}-{id}', function($name, $id){
+ // 	echo $name;
+ // 	echo $id;
+ // })->where('id','\d+')->where('name','[a-zA-Z]+');
  
- Route::get('/test', function(){})->middleware('login');
+ // Route::get('/test', function(){})->middleware('login');
 
- Route::get('/login', function(){
- 	echo 'name';
- });
+ // Route::get('/login', function(){
+ // 	echo 'name';
+ // });
+
+ // Route::get('/admin/user', 'UserController@index');
+
+Route::get('/admin',function(){
+	return view('admin.index');
+});
+
+Route::get('/admin/user',function(){
+	return view('admin.user');
+});
+Route::get('/admin/article', function(){
+	return view('admin.article.index');
+});
