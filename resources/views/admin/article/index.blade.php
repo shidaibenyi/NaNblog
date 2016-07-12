@@ -2,33 +2,73 @@
 @section('title','文章信息管理页')
 
 @section('css')
-<link href="/js/advanced-datatable/css/demo_page.css" rel="stylesheet" />
-  <link href="/js/advanced-datatable/css/demo_table.css" rel="stylesheet" />
-  <link rel="stylesheet" href="/js/data-tables/DT_bootstrap.css" />
+<link href="{{ url('/js/advanced-datatable/css/demo_page.css') }}" rel="stylesheet" />
+  <link href="{{ url('/js/advanced-datatable/css/demo_table.css') }}" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url('/js/data-tables/DT_bootstrap.css') }}" />
 
-  <link href="/css/style.css" rel="stylesheet">
-  <link href="/css/style-responsive.css" rel="stylesheet">
+  <link href="{{ url('/css/style.css') }}" rel="stylesheet">
+  <link href="{{ url('/css/style-responsive.css') }}" rel="stylesheet">
 @endsection
 
 @section('breadcrumb')
 	 		<h3>
-                主页
+                文章信息
             </h3>
             <ul class="breadcrumb">
                 <li>
-                    <a href="/admin">主页</a>
+                    <a href="{{ url('/admin') }}">主页</a>
                 </li>
                 <li>
-                    <a href="/admin/article">文章</a>
+                    <a href="{{ url('/admin/article') }}">文章</a>
                 </li>
                 <li class="active"> 基本信息 </li>
+            </ul>
 @endsection
 @section('contents')
-<div class="row">
+<div class="wrapper">
+@if(session('success'))
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <div class="panel-body">
+                        <!--statistics start-->
+                    <div class="alert alert-success alert-block fade in">
+                        <button data-dismiss="alert" class="close close-sm" type="button">
+                            <i class="fa fa-times"></i>
+                        </button>
+                        <h4>
+                            <i class="icon-ok-sign"></i>
+                            成功！
+                        </h4>
+                        <p>{{session('success')}}</p>
+                    </div>
+                </div>
+            <section>
+        </div>
+    </div>
+@endif
+@if(session('error'))
+     <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <div class="panel-body">
+                        <!--statistics start-->
+                    <div class="alert alert-block alert-danger fade in">
+                        <button data-dismiss="alert" class="close close-sm" type="button">
+                            <i class="fa fa-times"></i>
+                        </button>
+                        <strong>糟糕！</strong>{{session('error')}}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+ @endif
+ <div class="row">
         <div class="col-sm-12">
         <section class="panel">
         <header class="panel-heading">
-            DataTables hidden row details example
+            文章信息
             <span class="tools pull-right">
                 <a href="javascript:;" class="fa fa-chevron-down"></a>
                 <a href="javascript:;" class="fa fa-times"></a>
@@ -39,46 +79,32 @@
         <table class="display table table-bordered" id="hidden-table-info">
         <thead>
         <tr>
-            <th>Rendering engine</th>
-            <th>Browser</th>
-            <th class="hidden-phone">Platform(s)</th>
-            <th class="hidden-phone">Engine version</th>
-            <th class="hidden-phone">CSS grade</th>
+            <th>文章ID</th>
+            <th>文章标题</th>
+            <th class="hidden-phone">文章描述</th>
+            <th class="hidden-phone">文章内容</th>
+            <th class="hidden-phone">文章创建时间</th>
+            <th class="hidden-phone">文章主图</th>
+            <th class="hidden-phone">文章所属用户</th>
+            <th class="hidden-phone">文章所属分类</th>
+            <th class="hidden-phone">管理</th>
         </tr>
         </thead>
         <tbody>
+        @foreach($article as $k=>$v)
         <tr class="gradeX">
-            <td>Trident</td>
-            <td>Internet
-                Explorer 4.0</td>
-            <td class="hidden-phone">Win 95+</td>
-            <td class="center hidden-phone">4</td>
-            <td class="center hidden-phone">X</td>
+            <td>{{$v['id']}}</td>
+            <td>{{$v['title']}}</td>
+            <td class="hidden-phone">{{$v['descr']}}</td>
+            <td class="center hidden-phone">{{$v['content']}}</td>
+            <td class="center hidden-phone">{{$v['created_at']}}</td>
+            <td class="center hidden-phone"><img src="{{$v['pic']}}" alt="" height="50px"></td>
+            <td class="center hidden-phone">{{$v['user_id']}}</td>
+            <td class="center hidden-phone">{{$v['cate_id']}}</td>
+            <td class="center hidden-phone">  [<a href="/admin/article/edit/{{$v['id']}}">编辑</a>  <a href="/admin/article/delete/{{$v['id']}}">删除</a>]</td>
         </tr>
-        <tr class="gradeC">
-            <td>Trident</td>
-            <td>Internet
-                Explorer 5.0</td>
-            <td class="hidden-phone">Win 95+</td>
-            <td class="center hidden-phone">5</td>
-            <td class="center hidden-phone">C</td>
-        </tr>
-        <tr class="gradeA">
-            <td>Trident</td>
-            <td>Internet
-                Explorer 5.5</td>
-            <td class="hidden-phone">Win 95+</td>
-            <td class="center hidden-phone">5.5</td>
-            <td class="center hidden-phone">A</td>
-        </tr>
-        <tr class="gradeU">
-            <td>Other browsers</td>
-            <td>All others</td>
-            <td class="hidden-phone">-</td>
-            <td class="center hidden-phone">-</td>
-            <td class="center hidden-phone">U</td>
-        </tr>
-        </tbody>
+        @endforeach
+         </tbody>
         </table>
 
         </div>
@@ -86,25 +112,24 @@
         </section>
         </div>
         </div>
-        </div>
-        <!--body wrapper end-->
+</div>
 @endsection
 
 @section('js')
 <!-- Placed js at the end of the document so the pages load faster -->
-<script src="/js/jquery-1.10.2.min.js"></script>
-<script src="/js/jquery-ui-1.9.2.custom.min.js"></script>
-<script src="/js/jquery-migrate-1.2.1.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/modernizr.min.js"></script>
-<script src="/js/jquery.nicescroll.js"></script>
+<script src="{{ url('/js/jquery-1.10.2.min.js') }}"></script>
+<script src="{{ url('/js/jquery-ui-1.9.2.custom.min.js') }}"></script>
+<script src="{{ url('/js/jquery-migrate-1.2.1.min.js') }}"></script>
+<script src="{{ url('/js/bootstrap.min.js') }}"></script>
+<script src="{{ url('/js/modernizr.min.js') }}"></script>
+<script src="{{ url('/js/jquery.nicescroll.js') }}"></script>
 
 <!--dynamic table-->
-<script type="text/javascript" language="javascript" src="/js/advanced-datatable/js/jquery.dataTables.js"></script>
-<script type="text/javascript" src="/js/data-tables/DT_bootstrap.js"></script>
+<script type="text/javascript" language="javascript" src="{{ url('/js/advanced-datatable/js/jquery.dataTables.js') }}"></script>
+<script type="text/javascript" src="{{ url('/js/data-tables/DT_bootstrap.js') }}"></script>
 <!--dynamic table initialization -->
-<script src="/js/dynamic_table_init.js"></script>
+<script src="{{ url('/js/dynamic_table_init.js') }}"></script>
 
 <!--common scripts for all pages-->
-<script src="/js/scripts.js"></script>
+<script src="{{ url('/js/scripts.js') }}"></script>
 @endsection

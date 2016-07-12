@@ -196,5 +196,6 @@ return [
     ],
 
     //设置网站的名称
-    'webname'=>'goal博',
+    'webname'=>'goal',
+    'upload_dir' => './upload/'.date('Ymd').'/'
 ];

@@ -56,13 +56,28 @@
 
  // Route::get('/admin/user', 'UserController@index');
 
-Route::get('/admin',function(){
-	return view('admin.index');
-});
+// Route::get('/admin',function(){
+// 	return view('admin.index');
+// });
 
-Route::get('/admin/user',function(){
-	return view('admin.user');
+// Route::get('/admin/user',function(){
+// 	return view('admin.user');
+// });
+// Route::get('/admin/article/index', function(){
+// 	return view('admin.article.index');
+// });
+//网站首页
+Route::get('/', function () {
+    return view('welcome');
 });
-Route::get('/admin/article', function(){
-	return view('admin.article.index');
-});
+//后台首页
+Route::get('/admin','AdminController@index');
+//登陆页面
+Route::get('/admin/login', 'LoginController@index');
+Route::post("/admin/login/logTodo", 'LoginController@logTodo');
+//后台用户
+Route::Controller('/admin/user','UserController');
+//后台分类管理路由
+Route::Controller('/admin/cate','CateController');
+//后台文章
+Route::Controller('/admin/article','ArticleController');
